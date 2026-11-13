@@ -79,23 +79,27 @@
             align-items: center;
             justify-content: space-between;
             flex-shrink: 0;
+            gap: 16px;
         }
 
         .portal-brand-group {
             display: flex;
             align-items: center;
             gap: 16px;
+            min-width: 0;
         }
 
         .portal-divider {
             width: 1px;
             height: 22px;
             background-color: var(--border-dark);
+            flex-shrink: 0;
         }
 
         .portal-client-meta {
             display: flex;
             flex-direction: column;
+            min-width: 0;
         }
 
         .portal-client-org {
@@ -105,6 +109,9 @@
             letter-spacing: 0.06em;
             color: var(--text-muted);
             line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .portal-dashboard-title {
@@ -112,12 +119,50 @@
             font-weight: 500;
             color: var(--navy);
             line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .portal-actions {
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .portal-subbar {
+            background-color: var(--bg-subtle);
+            border-bottom: 1px solid var(--border-color);
+            padding: 6px 24px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .portal-subbar a {
+            color: var(--navy);
+            font-weight: 500;
+            text-decoration: underline;
+        }
+
+        .portal-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            color: var(--navy);
+        }
+
+        .portal-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #15803D;
         }
 
         .portal-frame-wrapper {
@@ -128,11 +173,44 @@
             background: var(--bg-subtle);
         }
 
+        #portalLoader {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-subtle);
+            z-index: 2;
+            gap: 12px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        #portalLoader.hidden {
+            display: none;
+        }
+
+        .spinner {
+            width: 26px;
+            height: 26px;
+            border: 2.5px solid var(--border-dark);
+            border-top-color: var(--navy);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         #clientDashboardFrame {
             width: 100%;
             height: 100%;
             border: none;
             display: block;
+            position: relative;
+            z-index: 1;
         }
 
         .portal-empty-state {
@@ -817,7 +895,8 @@
             .portal-header {
                 padding: 0 16px;
             }
-            .portal-brand-group .brand-name {
+            .portal-brand-group .brand-name,
+            .hide-mobile {
                 display: none;
             }
         }
@@ -848,13 +927,33 @@
             </div>
 
             <div class="portal-actions">
+                <div class="lang-switch hide-mobile" role="group" aria-label="Language selector">
+                    <button type="button" class="lang-btn active" id="portal-btn-nl" onclick="setLanguage('nl')">NL</button>
+                    <button type="button" class="lang-btn" id="portal-btn-en" onclick="setLanguage('en')">EN</button>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm hide-mobile" onclick="togglePortalFullscreen()" data-i18n="portal_fullscreen">Volledig scherm</button>
                 <a id="portalExternalLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" data-i18n="portal_open_tab">Open in nieuw tabblad</a>
                 <button type="button" class="btn btn-primary btn-sm" onclick="logoutClient()" data-i18n="portal_logout">Portaal verlaten</button>
             </div>
         </div>
 
-        <div class="portal-frame-wrapper">
-            <iframe id="clientDashboardFrame" title="Client Aviation Dashboard" allow="fullscreen"></iframe>
+        <div class="portal-subbar">
+            <span class="portal-status-pill">
+                <span class="portal-status-dot"></span>
+                <span data-i18n="portal_secure_env">Beveiligde klantomgeving — JR Aviation Solutions</span>
+            </span>
+            <span id="portalFallbackNote">
+                <span data-i18n="portal_fallback_text">Wordt het dashboard niet direct weergegeven?</span>
+                <a id="portalFallbackLink" href="#" target="_blank" rel="noopener noreferrer" data-i18n="portal_fallback_cta">Open direct in nieuw venster</a>.
+            </span>
+        </div>
+
+        <div class="portal-frame-wrapper" id="portalFrameWrapper">
+            <div id="portalLoader">
+                <div class="spinner"></div>
+                <span data-i18n="portal_loading">Dashboardomgeving wordt geladen...</span>
+            </div>
+            <iframe id="clientDashboardFrame" title="Client Aviation Dashboard" allow="fullscreen" onload="hidePortalLoader()"></iframe>
             <div id="portalEmptyState" class="portal-empty-state">
                 <div class="portal-empty-card">
                     <h3 data-i18n="portal_no_url_title">Dashboard in voorbereiding</h3>
@@ -886,6 +985,7 @@
                         <button type="button" class="lang-btn active" id="maint-btn-nl" onclick="setLanguage('nl')">NL</button>
                         <button type="button" class="lang-btn" id="maint-btn-en" onclick="setLanguage('en')">EN</button>
                     </div>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="openClientModal()" data-i18n="nav_portal">Klantportaal</button>
                     <button type="button" class="btn btn-secondary btn-sm" onclick="openLoginModal()" data-i18n="maint_login_btn">Beheerder login</button>
                 </div>
             </div>
@@ -917,6 +1017,7 @@
 
                     <div class="maint-actions">
                         <a href="mailto:info@jraviationsolutions.com" class="btn btn-primary" data-i18n="maint_cta">Direct contact via e-mail</a>
+                        <button type="button" class="btn btn-secondary" onclick="openClientModal()" data-i18n="maint_portal_cta">Inloggen Klantportaal</button>
                     </div>
                 </div>
             </div>
@@ -985,7 +1086,8 @@
         <div class="container admin-bar-inner">
             <span data-i18n="admin_banner">Onderhoudsmodus actief — ingelogd als JPRuijten</span>
             <div class="admin-bar-actions">
-                <button type="button" class="logout-btn" onclick="openClientModal()" data-i18n="admin_test_portal">Test Klantportaal</button>
+                <button type="button" class="logout-btn" onclick="launchClientPortal('GRQ_RouteDev')" data-i18n="admin_open_grq">Open GRQ Dashboard</button>
+                <button type="button" class="logout-btn" onclick="openClientModal()" data-i18n="admin_test_portal">Klant Login</button>
                 <button type="button" class="logout-btn" onclick="logoutAdmin()" data-i18n="logout_btn">Uitloggen</button>
             </div>
         </div>
@@ -1161,23 +1263,21 @@
 
         /* =================================================================
            KLANTPORTAAL CONFIGURATIE — KOPPEL HIER KLANTEN & DASHBOARDS
-           =================================================================
-           Voeg hieronder per klant een profiel toe.
-           Gebruik voor Streamlit Cloud ?embed=true achter de URL voor een
-           naadloze weergave in het portaal.
-        */
+           ================================================================= */
         const clientDashboards = {
             "GRQ_RouteDev": {
                 password: "GRQ2026!Portal",
                 organization: "Groningen Airport Eelde",
                 dashboardTitle: "Route Development & O&D Intelligence",
-                dashboardUrl: "" // Vul hier de URL in, bijv. "https://jouw-app.streamlit.app/?embed=true"
+                embedUrl: "https://grqroutedevelopmentdashboard-dfkhychehrgwjcvrvdn8de.streamlit.app/?embed=true#surface-leakage-analysis-unserved-catchment-demand",
+                directUrl: "https://grqroutedevelopmentdashboard-dfkhychehrgwjcvrvdn8de.streamlit.app/#surface-leakage-analysis-unserved-catchment-demand"
             },
             "demo": {
                 password: "Demo2026!",
                 organization: "Demo Aviation Partner",
                 dashboardTitle: "Operational Performance Overview",
-                dashboardUrl: "" // Vul hier een test-URL in
+                embedUrl: "",
+                directUrl: ""
             }
         };
 
@@ -1233,6 +1333,19 @@
             document.getElementById('clientLoginModal').classList.remove('open');
         }
 
+        function hidePortalLoader() {
+            document.getElementById('portalLoader').classList.add('hidden');
+        }
+
+        function togglePortalFullscreen() {
+            const elem = document.getElementById('clientPortalOverlay');
+            if (!document.fullscreenElement) {
+                elem.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+
         function launchClientPortal(clientKey) {
             const client = clientDashboards[clientKey];
             if (!client) return;
@@ -1242,19 +1355,33 @@
 
             const frame = document.getElementById('clientDashboardFrame');
             const emptyState = document.getElementById('portalEmptyState');
+            const loader = document.getElementById('portalLoader');
             const extLink = document.getElementById('portalExternalLink');
+            const fallbackLink = document.getElementById('portalFallbackLink');
+            const fallbackNote = document.getElementById('portalFallbackNote');
 
-            if (client.dashboardUrl && client.dashboardUrl.trim() !== "") {
-                frame.src = client.dashboardUrl;
+            const targetEmbed = client.embedUrl || client.directUrl;
+            const targetDirect = client.directUrl || client.embedUrl;
+
+            if (targetEmbed && targetEmbed.trim() !== "") {
+                loader.classList.remove('hidden');
+                frame.src = targetEmbed;
                 frame.style.display = 'block';
                 emptyState.style.display = 'none';
-                extLink.href = client.dashboardUrl;
+                extLink.href = targetDirect;
                 extLink.style.display = 'inline-flex';
+                fallbackLink.href = targetDirect;
+                fallbackNote.style.display = 'inline';
+
+                // Fallback timer om spinner te verbergen als Streamlit al klaar is
+                setTimeout(hidePortalLoader, 3500);
             } else {
+                loader.classList.add('hidden');
                 frame.src = 'about:blank';
                 frame.style.display = 'none';
                 emptyState.style.display = 'flex';
                 extLink.style.display = 'none';
+                fallbackNote.style.display = 'none';
             }
 
             document.getElementById('clientPortalOverlay').classList.add('active');
@@ -1278,6 +1405,9 @@
         }
 
         function logoutClient() {
+            if (document.fullscreenElement) {
+                document.exitFullscreen().catch(() => {});
+            }
             sessionStorage.removeItem('jras_client_user');
             document.getElementById('clientDashboardFrame').src = 'about:blank';
             document.getElementById('clientPortalOverlay').classList.remove('active');
@@ -1301,13 +1431,19 @@
                 maint_label_scope: "Bereik",
                 maint_val_scope: "Website & Klantportaal",
                 maint_cta: "Direct contact via e-mail",
+                maint_portal_cta: "Inloggen Klantportaal",
                 modal_title: "Beheerder toegang",
                 modal_subtitle: "Log in om de website tijdens onderhoud te bekijken.",
                 client_modal_title: "Klantportaal",
                 client_modal_subtitle: "Log in met uw klantgegevens om uw gekoppelde dashboard te openen.",
                 client_login_submit: "Dashboard openen",
+                portal_fullscreen: "Volledig scherm",
                 portal_open_tab: "Open in nieuw tabblad",
                 portal_logout: "Portaal verlaten",
+                portal_secure_env: "Beveiligde klantomgeving — JR Aviation Solutions",
+                portal_fallback_text: "Wordt het dashboard niet direct weergegeven?",
+                portal_fallback_cta: "Open direct in nieuw venster",
+                portal_loading: "Dashboardomgeving wordt geladen...",
                 portal_no_url_title: "Dashboard in voorbereiding",
                 portal_no_url_desc: "Er is momenteel nog geen actieve dashboard-URL gekoppeld aan dit klantaccount. Neem contact op met JR Aviation Solutions voor activatie.",
                 login_error: "Onjuiste gebruikersnaam of wachtwoord.",
@@ -1315,7 +1451,8 @@
                 login_pass: "Wachtwoord",
                 login_submit: "Inloggen",
                 admin_banner: "Onderhoudsmodus actief — ingelogd als JPRuijten",
-                admin_test_portal: "Test Klantportaal",
+                admin_open_grq: "Open GRQ Dashboard",
+                admin_test_portal: "Klant Login",
                 logout_btn: "Uitloggen",
                 nav_solution: "Oplossing",
                 nav_approach: "Maatwerk",
@@ -1368,13 +1505,19 @@
                 maint_label_scope: "Scope",
                 maint_val_scope: "Website & Client Portal",
                 maint_cta: "Contact directly via email",
+                maint_portal_cta: "Client Portal Login",
                 modal_title: "Administrator access",
                 modal_subtitle: "Sign in to preview the website during maintenance.",
                 client_modal_title: "Client Portal",
                 client_modal_subtitle: "Sign in with your client credentials to access your linked dashboard.",
                 client_login_submit: "Open dashboard",
+                portal_fullscreen: "Fullscreen",
                 portal_open_tab: "Open in new tab",
                 portal_logout: "Exit portal",
+                portal_secure_env: "Secure client environment — JR Aviation Solutions",
+                portal_fallback_text: "Dashboard not displaying directly?",
+                portal_fallback_cta: "Open in a new window",
+                portal_loading: "Loading dashboard environment...",
                 portal_no_url_title: "Dashboard in preparation",
                 portal_no_url_desc: "No active dashboard URL is currently linked to this client account. Please contact JR Aviation Solutions for activation.",
                 login_error: "Invalid username or password.",
@@ -1382,7 +1525,8 @@
                 login_pass: "Password",
                 login_submit: "Sign in",
                 admin_banner: "Maintenance mode active — signed in as JPRuijten",
-                admin_test_portal: "Test Client Portal",
+                admin_open_grq: "Open GRQ Dashboard",
+                admin_test_portal: "Client Login",
                 logout_btn: "Sign out",
                 nav_solution: "Solution",
                 nav_approach: "Bespoke",
@@ -1433,11 +1577,11 @@
             currentLang = lang;
             document.documentElement.lang = lang;
 
-            ['btn-nl', 'maint-btn-nl'].forEach(id => {
+            ['btn-nl', 'maint-btn-nl', 'portal-btn-nl'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.toggle('active', lang === 'nl');
             });
-            ['btn-en', 'maint-btn-en'].forEach(id => {
+            ['btn-en', 'maint-btn-en', 'portal-btn-en'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.toggle('active', lang === 'en');
             });
