@@ -100,7 +100,7 @@
             background-color: #FEE2E2;
         }
 
-        /* ================= ADMIN TOP BAR ================= */
+        /* ================= ADMIN TOP BAR (ALLEEN UITLOGGEN) ================= */
         #adminBar {
             display: none;
             background-color: var(--navy);
@@ -122,34 +122,13 @@
             justify-content: space-between;
             align-items: center;
             gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .admin-bar-status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .admin-pill {
-            background: rgba(255,255,255,0.16);
-            padding: 2px 8px;
-            border-radius: 3px;
-            font-size: 0.74rem;
-            font-weight: 500;
-        }
-
-        .admin-bar-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
         }
 
         .bar-btn {
             background: rgba(255, 255, 255, 0.14);
             border: 1px solid rgba(255, 255, 255, 0.25);
             color: #FFFFFF;
-            padding: 4px 12px;
+            padding: 4px 14px;
             border-radius: 3px;
             font-size: 0.78rem;
             cursor: pointer;
@@ -158,12 +137,6 @@
 
         .bar-btn:hover {
             background: rgba(255, 255, 255, 0.24);
-        }
-
-        .bar-btn.highlight {
-            background: #FFFFFF;
-            color: var(--navy);
-            font-weight: 600;
         }
 
         /* ================= MAINTENANCE OVERLAY ================= */
@@ -341,7 +314,7 @@
             cursor: pointer;
         }
 
-        .nav-links a:hover, .nav-links a.active-link {
+        .nav-links a:hover {
             color: var(--navy);
             font-weight: 500;
         }
@@ -370,7 +343,7 @@
             color: #FFFFFF;
         }
 
-        /* ================= VIEWS (PUBLIC, CUSTOM PAGE, CLIENT PORTAL) ================= */
+        /* ================= VIEWS ================= */
         .view-section {
             display: none;
         }
@@ -1195,6 +1168,29 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .footer-dev-link {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            cursor: pointer;
+            text-decoration: underline;
+            font-family: inherit;
+            padding: 0;
+        }
+
+        .footer-dev-link:hover {
+            color: var(--navy);
         }
 
         @media (max-width: 900px) {
@@ -1236,18 +1232,11 @@
 </head>
 <body>
 
-    <!-- ================= DEVELOPER TOP BAR ================= -->
+    <!-- ================= DEVELOPER TOP BAR (ALLEEN UITLOGGEN) ================= -->
     <div id="adminBar">
         <div class="container admin-bar-inner">
-            <div class="admin-bar-status">
-                <span><strong>Developer Mode</strong> — JPRuijten</span>
-                <span class="admin-pill" id="barMaintStatus">Maintenance: AAN</span>
-            </div>
-            <div class="admin-bar-actions">
-                <button type="button" class="bar-btn highlight" onclick="openDevPortal()">Developer Portal</button>
-                <button type="button" class="bar-btn" onclick="openClientPortalPage('GRQ_RouteDev')">Bekijk GRQ Portaal</button>
-                <button type="button" class="bar-btn" onclick="logoutAdmin()">Uitloggen</button>
-            </div>
+            <span>Onderhoudsmodus actief — ingelogd als JPRuijten</span>
+            <button type="button" class="bar-btn" onclick="logoutAdmin()">Uitloggen</button>
         </div>
     </div>
 
@@ -1273,7 +1262,6 @@
                         <button type="button" class="lang-btn" id="maint-btn-en" onclick="setLanguage('en')">EN</button>
                     </div>
                     <button type="button" class="btn btn-secondary btn-sm" id="maintPortalBtn" onclick="openClientModal()" data-i18n="nav_portal">Klantportaal</button>
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="openLoginModal()" data-i18n="maint_login_btn">Developer login</button>
                 </div>
             </div>
         </header>
@@ -1313,7 +1301,10 @@
         <footer>
             <div class="container footer-inner">
                 <div>&copy; <span class="year-span"></span> JR Aviation Solutions. <span data-i18n="rights">Alle rechten voorbehouden.</span></div>
-                <div>Aviation Data & Decision Systems</div>
+                <div class="footer-right">
+                    <span>Aviation Data & Decision Systems</span>
+                    <button type="button" class="footer-dev-link" onclick="handleDeveloperAccess()">Developer</button>
+                </div>
             </div>
         </footer>
     </div>
@@ -1338,7 +1329,6 @@
                     <li><a onclick="navigateToSection('oplossing')" data-i18n="nav_solution">Oplossing</a></li>
                     <li><a onclick="navigateToSection('werkwijze')" data-i18n="nav_approach">Maatwerk</a></li>
                     <li id="navDocsLi"><a onclick="navigateToSection('documenten')" data-i18n="nav_docs">Documenten</a></li>
-                    <!-- Dynamische pagina's worden hier ingevoegd -->
                     <li id="navContactLi"><a onclick="navigateToSection('contact')" data-i18n="nav_contact">Contact</a></li>
                 </ul>
 
@@ -1356,9 +1346,9 @@
     <div id="homeView" class="view-section active">
         <section class="hero">
             <div class="container">
-                <span class="eyebrow" data-i18n="hero_eyebrow">Aviation Decision Intelligence</span>
-                <h1 data-i18n="hero_title">Maatwerk luchtvaartdashboards voor snelle, datagedreven beslissingen.</h1>
-                <p data-i18n="hero_subtitle">
+                <span class="eyebrow" id="siteHeroEyebrow">Aviation Decision Intelligence</span>
+                <h1 id="siteHeroTitle">Maatwerk luchtvaartdashboards voor snelle, datagedreven beslissingen.</h1>
+                <p id="siteHeroSubtitle">
                     JR Aviation Solutions vertaalt complexe operationele en commerciële luchtvaartdata naar heldere, overzichtelijke dashboards. Volledig op aanvraag ontwikkeld en afgestemd op uw organisatie.
                 </p>
                 <div class="hero-actions">
@@ -1371,8 +1361,8 @@
         <section id="oplossing" class="content-sec">
             <div class="container">
                 <div class="section-header">
-                    <h2 data-i18n="sol_title">Ontworpen voor overzicht en snelheid</h2>
-                    <p data-i18n="sol_subtitle">Geen overbodige ruis, maar directe inzichten waarmee luchthavens, airlines en grondafhandelaren direct kunnen bijsturen.</p>
+                    <h2 id="siteSolTitle">Ontworpen voor overzicht en snelheid</h2>
+                    <p id="siteSolSubtitle">Geen overbodige ruis, maar directe inzichten waarmee luchthavens, airlines en grondafhandelaren direct kunnen bijsturen.</p>
                 </div>
 
                 <div class="features-grid">
@@ -1444,8 +1434,8 @@
             <div class="container">
                 <div class="contact-wrapper">
                     <div class="contact-info">
-                        <h2 data-i18n="contact_title">Bespreek uw dashboard</h2>
-                        <p data-i18n="contact_subtitle">
+                        <h2 id="siteContactTitle">Bespreek uw dashboard</h2>
+                        <p id="siteContactSubtitle">
                             Elk dashboard wordt op aanvraag ontworpen en gebouwd. Neem contact op om uw databronnen, gewenste inzichten en een passende prijsindicatie te bespreken.
                         </p>
                         <div class="contact-meta">
@@ -1519,7 +1509,6 @@
         </div>
 
         <div class="container">
-            <!-- Prominent Dashboard Launch Card -->
             <div class="portal-launch-card">
                 <div class="portal-launch-info">
                     <span class="eyebrow" data-i18n="cp_env_label">Interactieve Analyseomgeving</span>
@@ -1536,7 +1525,6 @@
                 </div>
             </div>
 
-            <!-- Two-Column Content & Documentation -->
             <div class="portal-grid">
                 <div class="portal-panel portal-prose">
                     <h3 data-i18n="cp_overview_heading">Toelichting & Methodiek</h3>
@@ -1551,11 +1539,14 @@
         </div>
     </div>
 
-    <!-- ================= FOOTER ================= -->
+    <!-- ================= FOOTER (MET DEVELOPER PORTAL KNOP) ================= -->
     <footer>
         <div class="container footer-inner">
             <div>&copy; <span class="year-span"></span> JR Aviation Solutions. <span data-i18n="rights">Alle rechten voorbehouden.</span></div>
-            <div>Aviation Data & Decision Systems</div>
+            <div class="footer-right">
+                <span>Aviation Data & Decision Systems</span>
+                <button type="button" class="footer-dev-link" onclick="handleDeveloperAccess()">Developer</button>
+            </div>
         </div>
     </footer>
 
@@ -1614,8 +1605,9 @@
             </div>
 
             <div class="dev-tabs">
-                <button type="button" class="dev-tab active" onclick="switchDevTab('tab-system', this)">Systeem & Functies</button>
-                <button type="button" class="dev-tab" onclick="switchDevTab('tab-clients', this)">Klantaccounts & Wachtwoorden</button>
+                <button type="button" class="dev-tab active" onclick="switchDevTab('tab-system', this)">Systeem & Maintenance</button>
+                <button type="button" class="dev-tab" onclick="switchDevTab('tab-clients', this)">Accounts & Wachtwoorden</button>
+                <button type="button" class="dev-tab" onclick="switchDevTab('tab-site-edit', this)">Site Teksten Aanpassen</button>
                 <button type="button" class="dev-tab" onclick="switchDevTab('tab-pages', this)">Pagina's Beheren</button>
                 <button type="button" class="dev-tab" onclick="switchDevTab('tab-docs', this)">Documenten Hosten</button>
             </div>
@@ -1623,12 +1615,12 @@
             <div class="dev-body">
                 <div id="devNotice" class="dev-notice"></div>
 
-                <!-- TAB 1: SYSTEM & TOGGLES -->
+                <!-- TAB 1: SYSTEM & MAINTENANCE -->
                 <div id="tab-system" class="dev-pane active">
                     <div class="toggle-row">
                         <div class="toggle-info">
                             <strong>Maintenance Mode (Onderhoudsmodus)</strong>
-                            <span>Toont de onderhoudspagina voor reguliere bezoekers. Als developer houd je toegang.</span>
+                            <span>Toont de onderhoudspagina voor reguliere bezoekers. Als ingelogde developer kun je de website gewoon bekijken en aanpassen.</span>
                         </div>
                         <label class="switch">
                             <input type="checkbox" id="toggleMaintenance" onchange="updateFeatureFlag('maintenanceMode', this.checked)">
@@ -1670,9 +1662,9 @@
                     </div>
 
                     <div class="dev-card" style="margin-top: 24px;">
-                        <h3>Configuratie Back-up & Reset</h3>
+                        <h3>Standaardwaarden Herstellen</h3>
                         <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:14px;">
-                            Wijzigingen worden direct in je browser opgeslagen. Wil je alle instellingen terugzetten naar de standaardwaarden?
+                            Zet alle instellingen, teksten, pagina's en klantaccounts terug naar de oorspronkelijke configuratie.
                         </p>
                         <button type="button" class="btn btn-danger btn-sm" onclick="resetAllConfig()">Herstel standaardinstellingen</button>
                     </div>
@@ -1742,7 +1734,47 @@
                     </table>
                 </div>
 
-                <!-- TAB 3: PAGES MANAGEMENT -->
+                <!-- TAB 3: SITE TEXT EDITOR -->
+                <div id="tab-site-edit" class="dev-pane">
+                    <div class="dev-card">
+                        <h3>Hoofdwebsite Teksten Aanpassen</h3>
+                        <form onsubmit="saveSiteCopy(event)">
+                            <div class="form-group">
+                                <label>Hero Eyebrow (label boven hoofdtitel)</label>
+                                <input type="text" id="editHeroEyebrow" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Hero Hoofdtitel</label>
+                                <input type="text" id="editHeroTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Hero Subtitel / Introductie</label>
+                                <textarea id="editHeroSubtitle" required></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Oplossing Sectietitel</label>
+                                    <input type="text" id="editSolTitle" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Contact Sectietitel</label>
+                                    <input type="text" id="editContactTitle" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Oplossing Subtitel</label>
+                                <input type="text" id="editSolSubtitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Contact Subtitel</label>
+                                <input type="text" id="editContactSubtitle" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">Wijzigingen opslaan op website</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- TAB 4: PAGES MANAGEMENT -->
                 <div id="tab-pages" class="dev-pane">
                     <div class="dev-card">
                         <h3 id="pageFormHeading">Nieuwe Pagina Toevoegen</h3>
@@ -1793,7 +1825,7 @@
                     </table>
                 </div>
 
-                <!-- TAB 4: DOCUMENT HOSTING -->
+                <!-- TAB 5: DOCUMENT HOSTING -->
                 <div id="tab-docs" class="dev-pane">
                     <div class="dev-card">
                         <h3>Document Uploaden of Koppelen</h3>
@@ -1852,7 +1884,7 @@
         });
 
         /* ================= DEFAULT DATA & PERSISTENCE ================= */
-        const STORAGE_KEY = 'jras_cms_state_v1';
+        const STORAGE_KEY = 'jras_cms_state_v2';
 
         const defaultState = {
             features: {
@@ -1860,6 +1892,15 @@
                 clientPortalEnabled: true,
                 publicDocsEnabled: true,
                 contactEnabled: true
+            },
+            siteCopy: {
+                heroEyebrow: "Aviation Decision Intelligence",
+                heroTitle: "Maatwerk luchtvaartdashboards voor snelle, datagedreven beslissingen.",
+                heroSubtitle: "JR Aviation Solutions vertaalt complexe operationele en commerciële luchtvaartdata naar heldere, overzichtelijke dashboards. Volledig op aanvraag ontwikkeld en afgestemd op uw organisatie.",
+                solTitle: "Ontworpen voor overzicht en snelheid",
+                solSubtitle: "Geen overbodige ruis, maar directe inzichten waarmee luchthavens, airlines en grondafhandelaren direct kunnen bijsturen.",
+                contactTitle: "Bespreek uw dashboard",
+                contactSubtitle: "Elk dashboard wordt op aanvraag ontworpen en gebouwd. Neem contact op om uw databronnen, gewenste inzichten en een passende prijsindicatie te bespreken."
             },
             clients: {
                 "GRQ_RouteDev": {
@@ -1923,6 +1964,7 @@
                 const parsed = JSON.parse(raw);
                 return {
                     features: { ...defaultState.features, ...(parsed.features || {}) },
+                    siteCopy: { ...defaultState.siteCopy, ...(parsed.siteCopy || {}) },
                     clients: parsed.clients || JSON.parse(JSON.stringify(defaultState.clients)),
                     pages: parsed.pages || JSON.parse(JSON.stringify(defaultState.pages)),
                     documents: parsed.documents || JSON.parse(JSON.stringify(defaultState.documents))
@@ -1938,11 +1980,12 @@
         }
 
         function resetAllConfig() {
-            if (!confirm("Weet je zeker dat je alle instellingen, pagina's en klantaccounts wilt terugzetten naar de standaardwaarden?")) return;
+            if (!confirm("Weet je zeker dat je alle instellingen, teksten, pagina's en klantaccounts wilt terugzetten naar de standaardwaarden?")) return;
             localStorage.removeItem(STORAGE_KEY);
             appState = JSON.parse(JSON.stringify(defaultState));
             applyStateToUI();
             renderDevTables();
+            populateSiteCopyForm();
             showDevNotice("Standaardinstellingen zijn hersteld.");
         }
 
@@ -1951,7 +1994,7 @@
             const isAdmin = sessionStorage.getItem('jras_admin_auth') === '1';
             const maintActive = appState.features.maintenanceMode;
 
-            // Maintenance overlay: alleen tonen als maintenanceMode aan staat EN gebruiker geen ingelogde developer is
+            // Maintenance overlay
             const maintOverlay = document.getElementById('maintenanceOverlay');
             if (maintActive && !isAdmin) {
                 maintOverlay.classList.add('active');
@@ -1959,8 +2002,14 @@
                 maintOverlay.classList.remove('active');
             }
 
-            // Admin bar status bijwerken
-            document.getElementById('barMaintStatus').textContent = maintActive ? "Maintenance: AAN" : "Maintenance: UIT";
+            // Site teksten toepassen
+            document.getElementById('siteHeroEyebrow').textContent = appState.siteCopy.heroEyebrow;
+            document.getElementById('siteHeroTitle').textContent = appState.siteCopy.heroTitle;
+            document.getElementById('siteHeroSubtitle').textContent = appState.siteCopy.heroSubtitle;
+            document.getElementById('siteSolTitle').textContent = appState.siteCopy.solTitle;
+            document.getElementById('siteSolSubtitle').textContent = appState.siteCopy.solSubtitle;
+            document.getElementById('siteContactTitle').textContent = appState.siteCopy.contactTitle;
+            document.getElementById('siteContactSubtitle').textContent = appState.siteCopy.contactSubtitle;
 
             // Klantportaal knoppen aan/uit
             const portalOn = appState.features.clientPortalEnabled;
@@ -1993,7 +2042,6 @@
             const navUl = document.getElementById('mainNavLinks');
             const contactLi = document.getElementById('navContactLi');
 
-            // Verwijder oude dynamische items
             navUl.querySelectorAll('.dynamic-nav-item').forEach(el => el.remove());
 
             appState.pages.filter(p => p.enabled).forEach(page => {
@@ -2117,7 +2165,6 @@
                 launchBtn.style.display = 'none';
             }
 
-            // Klantspecifieke + publieke documenten tonen
             const clientDocs = appState.documents.filter(d => d.scope === clientKey || d.scope === 'public');
             const docsContainer = document.getElementById('cpDocsContainer');
 
@@ -2180,6 +2227,14 @@
         }
 
         /* ================= DEVELOPER AUTH & PORTAL ================= */
+        function handleDeveloperAccess() {
+            if (sessionStorage.getItem('jras_admin_auth') === '1') {
+                openDevPortal();
+            } else {
+                openLoginModal();
+            }
+        }
+
         function openLoginModal() {
             document.getElementById('loginError').style.display = 'none';
             document.getElementById('loginModal').classList.add('open');
@@ -2216,6 +2271,7 @@
 
         function openDevPortal() {
             renderDevTables();
+            populateSiteCopyForm();
             fillGeneratedPassword();
             document.getElementById('devPortalModal').classList.add('open');
         }
@@ -2242,6 +2298,30 @@
             appState.features[key] = value;
             saveState();
             showDevNotice("Instelling opgeslagen en direct toegepast.");
+        }
+
+        /* Site Copy Editor */
+        function populateSiteCopyForm() {
+            document.getElementById('editHeroEyebrow').value = appState.siteCopy.heroEyebrow;
+            document.getElementById('editHeroTitle').value = appState.siteCopy.heroTitle;
+            document.getElementById('editHeroSubtitle').value = appState.siteCopy.heroSubtitle;
+            document.getElementById('editSolTitle').value = appState.siteCopy.solTitle;
+            document.getElementById('editSolSubtitle').value = appState.siteCopy.solSubtitle;
+            document.getElementById('editContactTitle').value = appState.siteCopy.contactTitle;
+            document.getElementById('editContactSubtitle').value = appState.siteCopy.contactSubtitle;
+        }
+
+        function saveSiteCopy(e) {
+            e.preventDefault();
+            appState.siteCopy.heroEyebrow = document.getElementById('editHeroEyebrow').value.trim();
+            appState.siteCopy.heroTitle = document.getElementById('editHeroTitle').value.trim();
+            appState.siteCopy.heroSubtitle = document.getElementById('editHeroSubtitle').value.trim();
+            appState.siteCopy.solTitle = document.getElementById('editSolTitle').value.trim();
+            appState.siteCopy.solSubtitle = document.getElementById('editSolSubtitle').value.trim();
+            appState.siteCopy.contactTitle = document.getElementById('editContactTitle').value.trim();
+            appState.siteCopy.contactSubtitle = document.getElementById('editContactSubtitle').value.trim();
+            saveState();
+            showDevNotice("Website teksten zijn bijgewerkt.");
         }
 
         /* Password Generator */
@@ -2512,7 +2592,6 @@
         /* ================= TRANSLATIONS ================= */
         const translations = {
             nl: {
-                maint_login_btn: "Developer login",
                 maint_badge: "Systeemonderhoud",
                 maint_title: "Onze website is momenteel in onderhoud.",
                 maint_subtitle: "We werken achter de schermen aan een vernieuwde omgeving voor onze maatwerk luchtvaartdashboards. Binnenkort zijn wij weer volledig bereikbaar.",
@@ -2544,13 +2623,8 @@
                 nav_docs: "Documenten",
                 nav_contact: "Contact",
                 nav_portal: "Klantportaal",
-                hero_eyebrow: "Aviation Decision Intelligence",
-                hero_title: "Maatwerk luchtvaartdashboards voor snelle, datagedreven beslissingen.",
-                hero_subtitle: "JR Aviation Solutions vertaalt complexe operationele en commerciële luchtvaartdata naar heldere, overzichtelijke dashboards. Volledig op aanvraag ontwikkeld en afgestemd op uw organisatie.",
                 hero_cta_primary: "Dashboard aanvragen",
                 hero_cta_secondary: "Ontdek de mogelijkheden",
-                sol_title: "Ontworpen voor overzicht en snelheid",
-                sol_subtitle: "Geen overbodige ruis, maar directe inzichten waarmee luchthavens, airlines en grondafhandelaren direct kunnen bijsturen.",
                 feat_1_title: "Op maat gebouwd",
                 feat_1_desc: "Elk dashboard wordt specifiek ingericht op uw KPI's, databronnen en operationele processen. U betaalt uitsluitend voor functionaliteit die uw organisatie nodig heeft.",
                 feat_2_title: "Directe besluitvorming",
@@ -2570,8 +2644,6 @@
                 bespoke_cta: "Bespreek uw wensen",
                 docs_sec_title: "Documentatie & Publicaties",
                 docs_sec_subtitle: "Technische specificaties, datavereisten en overzichtelijke handleidingen voor onze luchtvaartoplossingen.",
-                contact_title: "Bespreek uw dashboard",
-                contact_subtitle: "Elk dashboard wordt op aanvraag ontworpen en gebouwd. Neem contact op om uw databronnen, gewenste inzichten en een passende prijsindicatie te bespreken.",
                 meta_company: "Bedrijf",
                 meta_focus: "Focus",
                 meta_region: "Regio",
@@ -2584,7 +2656,6 @@
                 rights: "Alle rechten voorbehouden."
             },
             en: {
-                maint_login_btn: "Developer login",
                 maint_badge: "System Maintenance",
                 maint_title: "Our website is currently under maintenance.",
                 maint_subtitle: "We are updating our platform behind the scenes to deliver an improved experience for our custom aviation dashboards. We will be back online shortly.",
@@ -2616,13 +2687,8 @@
                 nav_docs: "Documents",
                 nav_contact: "Contact",
                 nav_portal: "Client Portal",
-                hero_eyebrow: "Aviation Decision Intelligence",
-                hero_title: "Custom aviation dashboards built for rapid, data-driven decisions.",
-                hero_subtitle: "JR Aviation Solutions transforms complex operational and commercial aviation data into clear, structured dashboards—built on request and tailored to your organization.",
                 hero_cta_primary: "Request a dashboard",
                 hero_cta_secondary: "Explore capabilities",
-                sol_title: "Engineered for clarity and speed",
-                sol_subtitle: "No unnecessary clutter—just direct insights enabling airports, airlines, and ground handlers to act immediately.",
                 feat_1_title: "Custom-built",
                 feat_1_desc: "Every dashboard is configured around your specific KPIs, data sources, and workflows. You only pay for the capabilities your operation actually requires.",
                 feat_2_title: "Rapid decision-making",
@@ -2642,8 +2708,6 @@
                 bespoke_cta: "Discuss your requirements",
                 docs_sec_title: "Documentation & Publications",
                 docs_sec_subtitle: "Technical specifications, data requirements, and user guides for our aviation analytics solutions.",
-                contact_title: "Discuss your dashboard",
-                contact_subtitle: "Every dashboard is designed and built on request. Get in touch to discuss your data sources, required insights, and a tailored quote.",
                 meta_company: "Company",
                 meta_focus: "Focus",
                 meta_region: "Region",
