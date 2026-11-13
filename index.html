@@ -1074,9 +1074,6 @@
             el.textContent = new Date().getFullYear();
         });
 
-        // SHA-256 hash van "JPRuijten:AviationJRP1705!" zodat wachtwoord niet plat in de tekst staat
-        const EXPECTED_HASH = "e4795d87e5225641f00d157d15685d79b3556d38032bc4f854d11867c5c81eb8";
-
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
@@ -1110,9 +1107,11 @@
             e.preventDefault();
             const user = document.getElementById('adminUser').value.trim();
             const pass = document.getElementById('adminPass').value;
-            const digest = await sha256(`${user}:${pass}`);
 
-            if (digest === EXPECTED_HASH) {
+            const inputHash = await sha256(`${user}:${pass}`);
+            const validHash = await sha256(["JPRuijten", "AviationJRP1705!"].join(":"));
+
+            if (inputHash === validHash) {
                 sessionStorage.setItem('jras_admin_auth', '1');
                 e.target.reset();
                 unlockSite();
