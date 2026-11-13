@@ -477,113 +477,54 @@
             line-height: 1.65;
         }
 
-        .pricing-section {
+        /* Bespoke / On-Request Section */
+        .bespoke-section {
             background-color: var(--bg-subtle);
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
         }
 
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            align-items: stretch;
-        }
-
-        .plan-card {
+        .bespoke-box {
             background: var(--bg-main);
             border: 1px solid var(--border-color);
             border-radius: 4px;
-            padding: 32px 26px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: border-color 0.15s ease;
-        }
-
-        .plan-card:hover {
-            border-color: var(--navy);
-        }
-
-        .plan-card.featured {
-            border: 1.5px solid var(--navy);
-        }
-
-        .plan-header {
-            margin-bottom: 24px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .plan-tier {
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--navy);
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
+            padding: 48px;
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 48px;
             align-items: center;
         }
 
-        .tier-badge {
-            font-size: 0.7rem;
-            background: var(--navy);
-            color: #fff;
-            padding: 2px 7px;
-            border-radius: 2px;
-            letter-spacing: 0.04em;
-        }
-
-        .plan-price {
-            display: flex;
-            align-items: baseline;
-            gap: 4px;
-            color: var(--text-main);
-        }
-
-        .plan-price .prefix {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-right: 2px;
-        }
-
-        .plan-price .amount {
-            font-size: 2.1rem;
+        .bespoke-content h3 {
+            font-size: 1.45rem;
             font-weight: 500;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.02em;
             color: var(--navy);
+            margin-bottom: 14px;
         }
 
-        .plan-price .period {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .plan-desc {
-            font-size: 0.9rem;
+        .bespoke-content p {
+            font-size: 0.96rem;
             color: var(--text-muted);
             margin-bottom: 24px;
-            line-height: 1.55;
+            line-height: 1.65;
         }
 
-        .plan-features {
+        .bespoke-list {
             list-style: none;
-            margin-bottom: 32px;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        .plan-features li {
-            font-size: 0.88rem;
+        .bespoke-list li {
+            font-size: 0.9rem;
             color: var(--text-main);
-            padding-left: 18px;
+            padding-left: 20px;
             position: relative;
         }
 
-        .plan-features li::before {
+        .bespoke-list li::before {
             content: "—";
             position: absolute;
             left: 0;
@@ -591,15 +532,34 @@
             font-weight: 500;
         }
 
-        .plan-features li.muted {
-            color: #94A3B8;
-            text-decoration: line-through;
+        .bespoke-cta-panel {
+            border-left: 1px solid var(--border-color);
+            padding-left: 48px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
-        .plan-card .btn {
-            width: 100%;
-            padding: 11px 16px;
+        .bespoke-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--text-muted);
+        }
+
+        .bespoke-price-title {
+            font-size: 1.65rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: var(--navy);
+            line-height: 1.25;
+        }
+
+        .bespoke-cta-panel p {
             font-size: 0.88rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
         }
 
         .contact-wrapper {
@@ -662,7 +622,7 @@
             color: var(--navy);
         }
 
-        input, select, textarea {
+        input, textarea {
             font-family: inherit;
             font-size: 0.92rem;
             padding: 11px 14px;
@@ -673,14 +633,14 @@
             transition: border-color 0.15s ease;
         }
 
-        input:focus, select:focus, textarea:focus {
+        input:focus, textarea:focus {
             outline: none;
             border-color: var(--navy);
         }
 
         textarea {
             resize: vertical;
-            min-height: 110px;
+            min-height: 120px;
         }
 
         .form-status {
@@ -706,9 +666,17 @@
             align-items: center;
         }
 
-        @media (max-width: 1024px) {
-            .pricing-grid {
-                grid-template-columns: repeat(2, 1fr);
+        @media (max-width: 900px) {
+            .bespoke-box {
+                grid-template-columns: 1fr;
+                padding: 32px 24px;
+                gap: 32px;
+            }
+            .bespoke-cta-panel {
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+                padding-left: 0;
+                padding-top: 28px;
             }
         }
 
@@ -717,7 +685,6 @@
                 display: none;
             }
             .features-grid,
-            .pricing-grid,
             .contact-wrapper,
             .form-row,
             .info-grid {
@@ -852,7 +819,7 @@
             <div class="nav-right">
                 <ul class="nav-links">
                     <li><a href="#oplossing" data-i18n="nav_solution">Oplossing</a></li>
-                    <li><a href="#abonnementen" data-i18n="nav_pricing">Abonnementen</a></li>
+                    <li><a href="#werkwijze" data-i18n="nav_approach">Maatwerk</a></li>
                     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
                 </ul>
 
@@ -870,11 +837,11 @@
             <span class="eyebrow" data-i18n="hero_eyebrow">Aviation Decision Intelligence</span>
             <h1 data-i18n="hero_title">Maatwerk luchtvaartdashboards voor snelle, datagedreven beslissingen.</h1>
             <p data-i18n="hero_subtitle">
-                JR Aviation Solutions vertaalt complexe operationele en commerciële luchtvaartdata naar heldere, overzichtelijke dashboards. Volledig afgestemd op uw organisatie.
+                JR Aviation Solutions vertaalt complexe operationele en commerciële luchtvaartdata naar heldere, overzichtelijke dashboards. Volledig op aanvraag ontwikkeld en afgestemd op uw organisatie.
             </p>
             <div class="hero-actions">
-                <a href="#abonnementen" class="btn btn-primary" data-i18n="hero_cta_primary">Bekijk abonnementen</a>
-                <a href="#contact" class="btn btn-secondary" data-i18n="hero_cta_secondary">Plan een kennismaking</a>
+                <a href="#contact" class="btn btn-primary" data-i18n="hero_cta_primary">Dashboard aanvragen</a>
+                <a href="#oplossing" class="btn btn-secondary" data-i18n="hero_cta_secondary">Ontdek de mogelijkheden</a>
             </div>
         </div>
     </section>
@@ -907,99 +874,36 @@
         </div>
     </section>
 
-    <!-- Pricing / Subscriptions -->
-    <section id="abonnementen" class="pricing-section">
+    <!-- Bespoke / On Request -->
+    <section id="werkwijze" class="bespoke-section">
         <div class="container">
             <div class="section-header">
-                <h2 data-i18n="price_title">Abonnementen</h2>
-                <p data-i18n="price_subtitle">Transparante maandelijkse licenties voor onderhoud, hosting en doorontwikkeling van uw maatwerk dashboard.</p>
+                <h2 data-i18n="bespoke_sec_title">Volledig op aanvraag</h2>
+                <p data-i18n="bespoke_sec_subtitle">Omdat iedere luchtvaartoperatie andere databronnen en stuurinformatie vraagt, werken wij niet met standaardpakketten.</p>
             </div>
 
-            <div class="pricing-grid">
-                <!-- Bronze -->
-                <div class="plan-card">
-                    <div>
-                        <div class="plan-header">
-                            <div class="plan-tier">Bronze</div>
-                            <div class="plan-price">
-                                <span class="amount">€30</span>
-                                <span class="period" data-i18n="per_month">/ maand</span>
-                            </div>
-                        </div>
-                        <p class="plan-desc" data-i18n="bronze_desc">Ideaal voor een compact overzicht met drie kernfunctionaliteiten op maat.</p>
-                        <ul class="plan-features">
-                            <li data-i18n="bronze_f1">3 geselecteerde basisfeatures</li>
-                            <li data-i18n="bronze_f2">Maatwerk datavisualisatie</li>
-                            <li class="muted" data-i18n="feat_no_report">Rapportagefunctie</li>
-                            <li class="muted" data-i18n="feat_no_exp">Expansiepakket</li>
-                        </ul>
-                    </div>
-                    <a href="#contact" class="btn btn-secondary" onclick="selectPlan('Bronze (€30/mnd)')" data-i18n="select_plan">Aanvragen</a>
+            <div class="bespoke-box">
+                <div class="bespoke-content">
+                    <h3 data-i18n="bespoke_box_title">Van databron naar werkend dashboard</h3>
+                    <p data-i18n="bespoke_box_desc">
+                        Tijdens een vrijblijvende kennismaking inventariseren we welke datasets u gebruikt en welke inzichten u mist. Op basis daarvan stellen wij een helder voorstel op met de gewenste functionaliteiten en bijbehorende investering.
+                    </p>
+                    <ul class="bespoke-list">
+                        <li data-i18n="bespoke_f1">Koppeling met uw bestaande Excel-, CSV- of operationele exports</li>
+                        <li data-i18n="bespoke_f2">Keuze uit visuele analyses, route-evaluaties en rapportage-exports</li>
+                        <li data-i18n="bespoke_f3">Inclusief hosting, onderhoud en doorontwikkeling in overleg</li>
+                    </ul>
                 </div>
 
-                <!-- Silver -->
-                <div class="plan-card">
+                <div class="bespoke-cta-panel">
+                    <span class="bespoke-label" data-i18n="bespoke_price_label">Investering</span>
+                    <div class="bespoke-price-title" data-i18n="bespoke_price_val">Prijs op basis van scope</div>
+                    <p data-i18n="bespoke_price_note">
+                        De prijs wordt persoonlijk besproken op basis van het aantal modules, datacomplexiteit en gewenst onderhoud.
+                    </p>
                     <div>
-                        <div class="plan-header">
-                            <div class="plan-tier">Silver</div>
-                            <div class="plan-price">
-                                <span class="amount">€60</span>
-                                <span class="period" data-i18n="per_month">/ maand</span>
-                            </div>
-                        </div>
-                        <p class="plan-desc" data-i18n="silver_desc">Volledige toegang tot alle standaard dashboardmodules voor dagelijkse sturing.</p>
-                        <ul class="plan-features">
-                            <li data-i18n="silver_f1">Alle basisfeatures inbegrepen</li>
-                            <li data-i18n="silver_f2">Volledige maatwerk inrichting</li>
-                            <li class="muted" data-i18n="feat_no_report">Rapportagefunctie</li>
-                            <li class="muted" data-i18n="feat_no_exp">Expansiepakket</li>
-                        </ul>
+                        <a href="#contact" class="btn btn-primary" data-i18n="bespoke_cta">Bespreek uw wensen</a>
                     </div>
-                    <a href="#contact" class="btn btn-secondary" onclick="selectPlan('Silver (€60/mnd)')" data-i18n="select_plan">Aanvragen</a>
-                </div>
-
-                <!-- Gold -->
-                <div class="plan-card featured">
-                    <div>
-                        <div class="plan-header">
-                            <div class="plan-tier">
-                                Gold
-                                <span class="tier-badge" data-i18n="popular_badge">Compleet</span>
-                            </div>
-                            <div class="plan-price">
-                                <span class="amount">€90</span>
-                                <span class="period" data-i18n="per_month">/ maand</span>
-                            </div>
-                        </div>
-                        <p class="plan-desc" data-i18n="gold_desc">Voor diepgaande data-analyse en het direct exporteren van rapportages.</p>
-                        <ul class="plan-features">
-                            <li data-i18n="gold_f1">Alle basisfeatures inbegrepen</li>
-                            <li data-i18n="gold_f2">Expansiepakket (meer data aflezen)</li>
-                            <li data-i18n="gold_f3">Analyses & rapportages downloaden</li>
-                        </ul>
-                    </div>
-                    <a href="#contact" class="btn btn-primary" onclick="selectPlan('Gold (€90/mnd)')" data-i18n="select_plan">Aanvragen</a>
-                </div>
-
-                <!-- Platinum -->
-                <div class="plan-card">
-                    <div>
-                        <div class="plan-header">
-                            <div class="plan-tier">Platinum</div>
-                            <div class="plan-price">
-                                <span class="prefix" data-i18n="from_price">vanaf</span>
-                                <span class="amount">€120</span>
-                                <span class="period" data-i18n="per_month">/ maand</span>
-                            </div>
-                        </div>
-                        <p class="plan-desc" data-i18n="plat_desc">Volledig maatwerk waarbij nieuwe functies op aanvraag worden ontwikkeld.</p>
-                        <ul class="plan-features">
-                            <li data-i18n="plat_f1">Alles uit het Gold-abonnement</li>
-                            <li data-i18n="plat_f2">Ontwikkeling van functies op aanvraag</li>
-                            <li data-i18n="plat_f3">Prijs op basis van gewenste scope</li>
-                        </ul>
-                    </div>
-                    <a href="#contact" class="btn btn-secondary" onclick="selectPlan('Platinum (vanaf €120/mnd)')" data-i18n="request_quote">Offerte aanvragen</a>
                 </div>
             </div>
         </div>
@@ -1012,7 +916,7 @@
                 <div class="contact-info">
                     <h2 data-i18n="contact_title">Bespreek uw dashboard</h2>
                     <p data-i18n="contact_subtitle">
-                        Elk dashboard wordt op maat gebouwd. Neem contact op om uw databronnen, gewenste inzichten en het passende abonnement te bespreken.
+                        Elk dashboard wordt op aanvraag ontworpen en gebouwd. Neem contact op om uw databronnen, gewenste inzichten en een passende prijsindicatie te bespreken.
                     </p>
                     <div class="contact-meta">
                         <div><span data-i18n="meta_company">Bedrijf</span> JR Aviation Solutions</div>
@@ -1033,20 +937,9 @@
                         </div>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email" data-i18n="form_email">E-mailadres</label>
-                            <input type="email" id="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="plan" data-i18n="form_plan">Gewenst abonnement</label>
-                            <select id="plan">
-                                <option value="Bronze (€30/mnd)">Bronze — €30 / maand</option>
-                                <option value="Silver (€60/mnd)">Silver — €60 / maand</option>
-                                <option value="Gold (€90/mnd)" selected>Gold — €90 / maand</option>
-                                <option value="Platinum (vanaf €120/mnd)">Platinum — vanaf €120 / maand</option>
-                            </select>
-                        </div>
+                    <div class="form-group">
+                        <label for="email" data-i18n="form_email">E-mailadres</label>
+                        <input type="email" id="email" required>
                     </div>
 
                     <div class="form-group">
@@ -1074,13 +967,6 @@
             el.textContent = new Date().getFullYear();
         });
 
-        async function sha256(message) {
-            const msgBuffer = new TextEncoder().encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
         function unlockSite() {
             document.getElementById('maintenanceOverlay').classList.add('hidden');
             document.getElementById('adminBar').classList.add('visible');
@@ -1103,15 +989,12 @@
             document.getElementById('loginModal').classList.remove('open');
         }
 
-        async function handleAdminLogin(e) {
+        function handleAdminLogin(e) {
             e.preventDefault();
             const user = document.getElementById('adminUser').value.trim();
             const pass = document.getElementById('adminPass').value;
 
-            const inputHash = await sha256(`${user}:${pass}`);
-            const validHash = await sha256(["JPRuijten", "AviationJRP1705!"].join(":"));
-
-            if (inputHash === validHash) {
+            if (user === 'JPRuijten' && pass === 'AviationJRP1705!') {
                 sessionStorage.setItem('jras_admin_auth', '1');
                 e.target.reset();
                 unlockSite();
@@ -1120,7 +1003,6 @@
             }
         }
 
-        // Check active session on page load
         if (sessionStorage.getItem('jras_admin_auth') === '1') {
             unlockSite();
         }
@@ -1145,13 +1027,13 @@
                 admin_banner: "Onderhoudsmodus actief — ingelogd als JPRuijten",
                 logout_btn: "Uitloggen",
                 nav_solution: "Oplossing",
-                nav_pricing: "Abonnementen",
+                nav_approach: "Maatwerk",
                 nav_contact: "Contact",
                 hero_eyebrow: "Aviation Decision Intelligence",
                 hero_title: "Maatwerk luchtvaartdashboards voor snelle, datagedreven beslissingen.",
-                hero_subtitle: "JR Aviation Solutions vertaalt complexe operationele en commerciële luchtvaartdata naar heldere, overzichtelijke dashboards. Volledig afgestemd op uw organisatie.",
-                hero_cta_primary: "Bekijk abonnementen",
-                hero_cta_secondary: "Plan een kennismaking",
+                hero_subtitle: "JR Aviation Solutions vertaalt complexe operationele en commerciële luchtvaartdata naar heldere, overzichtelijke dashboards. Volledig op aanvraag ontwikkeld en afgestemd op uw organisatie.",
+                hero_cta_primary: "Dashboard aanvragen",
+                hero_cta_secondary: "Ontdek de mogelijkheden",
                 sol_title: "Ontworpen voor overzicht en snelheid",
                 sol_subtitle: "Geen overbodige ruis, maar directe inzichten waarmee luchthavens, airlines en grondafhandelaren direct kunnen bijsturen.",
                 feat_1_title: "Op maat gebouwd",
@@ -1160,38 +1042,25 @@
                 feat_2_desc: "Ruwe spreadsheets en versnipperde rapportages worden samengebracht in één rustige interface, zodat trends en knelpunten binnen seconden zichtbaar zijn.",
                 feat_3_title: "Schaalbare functionaliteit",
                 feat_3_desc: "Start met een compacte basis en breid eenvoudig uit met aanvullende data-analyses, exportmogelijkheden of maatwerkmodules wanneer uw behoefte groeit.",
-                price_title: "Abonnementen",
-                price_subtitle: "Transparante maandelijkse licenties voor onderhoud, hosting en doorontwikkeling van uw maatwerk dashboard.",
-                per_month: "/ maand",
-                from_price: "vanaf",
-                popular_badge: "Compleet",
-                bronze_desc: "Ideaal voor een compact overzicht met drie kernfunctionaliteiten op maat.",
-                bronze_f1: "3 geselecteerde basisfeatures",
-                bronze_f2: "Maatwerk datavisualisatie",
-                silver_desc: "Volledige toegang tot alle standaard dashboardmodules voor dagelijkse sturing.",
-                silver_f1: "Alle basisfeatures inbegrepen",
-                silver_f2: "Volledige maatwerk inrichting",
-                gold_desc: "Voor diepgaande data-analyse en het direct exporteren van rapportages.",
-                gold_f1: "Alle basisfeatures inbegrepen",
-                gold_f2: "Expansiepakket (meer data aflezen)",
-                gold_f3: "Analyses & rapportages downloaden",
-                plat_desc: "Volledig maatwerk waarbij nieuwe functies op aanvraag worden ontwikkeld.",
-                plat_f1: "Alles uit het Gold-abonnement",
-                plat_f2: "Ontwikkeling van functies op aanvraag",
-                plat_f3: "Prijs op basis van gewenste scope",
-                feat_no_report: "Rapportagefunctie",
-                feat_no_exp: "Expansiepakket",
-                select_plan: "Aanvragen",
-                request_quote: "Offerte aanvragen",
+                bespoke_sec_title: "Volledig op aanvraag",
+                bespoke_sec_subtitle: "Omdat iedere luchtvaartoperatie andere databronnen en stuurinformatie vraagt, werken wij niet met standaardpakketten.",
+                bespoke_box_title: "Van databron naar werkend dashboard",
+                bespoke_box_desc: "Tijdens een vrijblijvende kennismaking inventariseren we welke datasets u gebruikt en welke inzichten u mist. Op basis daarvan stellen wij een helder voorstel op met de gewenste functionaliteiten en bijbehorende investering.",
+                bespoke_f1: "Koppeling met uw bestaande Excel-, CSV- of operationele exports",
+                bespoke_f2: "Keuze uit visuele analyses, route-evaluaties en rapportage-exports",
+                bespoke_f3: "Inclusief hosting, onderhoud en doorontwikkeling in overleg",
+                bespoke_price_label: "Investering",
+                bespoke_price_val: "Prijs op basis van scope",
+                bespoke_price_note: "De prijs wordt persoonlijk besproken op basis van het aantal modules, datacomplexiteit en gewenst onderhoud.",
+                bespoke_cta: "Bespreek uw wensen",
                 contact_title: "Bespreek uw dashboard",
-                contact_subtitle: "Elk dashboard wordt op maat gebouwd. Neem contact op om uw databronnen, gewenste inzichten en het passende abonnement te bespreken.",
+                contact_subtitle: "Elk dashboard wordt op aanvraag ontworpen en gebouwd. Neem contact op om uw databronnen, gewenste inzichten en een passende prijsindicatie te bespreken.",
                 meta_company: "Bedrijf",
                 meta_focus: "Focus",
                 meta_region: "Regio",
                 form_name: "Naam",
                 form_company: "Organisatie",
                 form_email: "E-mailadres",
-                form_plan: "Gewenst abonnement",
                 form_message: "Toelichting / Gewenste data-inzichten",
                 form_submit: "Aanvraag versturen",
                 form_success: "Bedankt voor uw aanvraag. We nemen zo spoedig mogelijk contact met u op.",
@@ -1216,13 +1085,13 @@
                 admin_banner: "Maintenance mode active — signed in as JPRuijten",
                 logout_btn: "Sign out",
                 nav_solution: "Solution",
-                nav_pricing: "Subscriptions",
+                nav_approach: "Bespoke",
                 nav_contact: "Contact",
                 hero_eyebrow: "Aviation Decision Intelligence",
                 hero_title: "Custom aviation dashboards built for rapid, data-driven decisions.",
-                hero_subtitle: "JR Aviation Solutions transforms complex operational and commercial aviation data into clear, structured dashboards—tailored specifically to your organization.",
-                hero_cta_primary: "View subscriptions",
-                hero_cta_secondary: "Schedule an introduction",
+                hero_subtitle: "JR Aviation Solutions transforms complex operational and commercial aviation data into clear, structured dashboards—built on request and tailored to your organization.",
+                hero_cta_primary: "Request a dashboard",
+                hero_cta_secondary: "Explore capabilities",
                 sol_title: "Engineered for clarity and speed",
                 sol_subtitle: "No unnecessary clutter—just direct insights enabling airports, airlines, and ground handlers to act immediately.",
                 feat_1_title: "Custom-built",
@@ -1231,38 +1100,25 @@
                 feat_2_desc: "Raw spreadsheets and fragmented reports are consolidated into one clean interface, making trends and bottlenecks visible within seconds.",
                 feat_3_title: "Scalable capabilities",
                 feat_3_desc: "Start with an essential foundation and scale seamlessly with expanded data views, export capabilities, or custom-developed modules as your needs evolve.",
-                price_title: "Subscriptions",
-                price_subtitle: "Transparent monthly plans covering hosting, maintenance, and ongoing support for your custom dashboard.",
-                per_month: "/ month",
-                from_price: "from",
-                popular_badge: "Complete",
-                bronze_desc: "Ideal for a focused overview featuring three custom-selected core features.",
-                bronze_f1: "3 selected core features",
-                bronze_f2: "Custom data visualization",
-                silver_desc: "Full access to all standard dashboard features for daily operational control.",
-                silver_f1: "All core features included",
-                silver_f2: "Full custom configuration",
-                gold_desc: "Designed for deeper data inspection and downloadable analytical reports.",
-                gold_f1: "All core features included",
-                gold_f2: "Expansion pack (extended data views)",
-                gold_f3: "Downloadable analyses & reports",
-                plat_desc: "Bespoke development where new features are built and integrated on request.",
-                plat_f1: "Everything in Gold",
-                plat_f2: "Custom feature development on request",
-                plat_f3: "Pricing calculated based on scope",
-                feat_no_report: "Reporting feature",
-                feat_no_exp: "Expansion pack",
-                select_plan: "Get started",
-                request_quote: "Request quote",
+                bespoke_sec_title: "Built on request",
+                bespoke_sec_subtitle: "Because every aviation operation relies on unique datasets and KPIs, we do not offer rigid off-the-shelf packages.",
+                bespoke_box_title: "From raw data to operational clarity",
+                bespoke_box_desc: "During an introductory consultation, we map out your datasets and required insights. Based on your exact needs, we prepare a clear proposal outlining the features and investment.",
+                bespoke_f1: "Integration with your existing Excel, CSV, or operational exports",
+                bespoke_f2: "Tailored visual analytics, route evaluations, and downloadable reports",
+                bespoke_f3: "Hosting, maintenance, and ongoing feature development arranged to fit",
+                bespoke_price_label: "Investment",
+                bespoke_price_val: "Pricing based on scope",
+                bespoke_price_note: "Pricing is discussed individually based on required modules, data complexity, and ongoing support.",
+                bespoke_cta: "Discuss your requirements",
                 contact_title: "Discuss your dashboard",
-                contact_subtitle: "Every dashboard is built to order. Get in touch to discuss your data sources, required insights, and the right subscription tier.",
+                contact_subtitle: "Every dashboard is designed and built on request. Get in touch to discuss your data sources, required insights, and a tailored quote.",
                 meta_company: "Company",
                 meta_focus: "Focus",
                 meta_region: "Region",
                 form_name: "Name",
                 form_company: "Organization",
                 form_email: "Email address",
-                form_plan: "Selected subscription",
                 form_message: "Project details / Desired data insights",
                 form_submit: "Send inquiry",
                 form_success: "Thank you for your inquiry. We will get back to you shortly.",
@@ -1291,23 +1147,6 @@
                     el.textContent = translations[lang][key];
                 }
             });
-
-            const planSelect = document.getElementById('plan');
-            if (lang === 'en') {
-                planSelect.options[0].text = "Bronze — €30 / month";
-                planSelect.options[1].text = "Silver — €60 / month";
-                planSelect.options[2].text = "Gold — €90 / month";
-                planSelect.options[3].text = "Platinum — from €120 / month";
-            } else {
-                planSelect.options[0].text = "Bronze — €30 / maand";
-                planSelect.options[1].text = "Silver — €60 / maand";
-                planSelect.options[2].text = "Gold — €90 / maand";
-                planSelect.options[3].text = "Platinum — vanaf €120 / maand";
-            }
-        }
-
-        function selectPlan(planValue) {
-            document.getElementById('plan').value = planValue;
         }
 
         function handleSubmit(e) {
