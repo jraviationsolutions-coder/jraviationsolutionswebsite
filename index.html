@@ -42,7 +42,7 @@
             padding: 0 24px;
         }
 
-        /* ================= MAINTENANCE OVERLAY ================= */
+        /* ================= OVERLAYS (MAINTENANCE & CLIENT PORTAL) ================= */
         #maintenanceOverlay {
             position: fixed;
             inset: 0;
@@ -55,6 +55,114 @@
 
         #maintenanceOverlay.hidden {
             display: none;
+        }
+
+        #clientPortalOverlay {
+            position: fixed;
+            inset: 0;
+            background-color: var(--bg-subtle);
+            z-index: 9500;
+            display: none;
+            flex-direction: column;
+        }
+
+        #clientPortalOverlay.active {
+            display: flex;
+        }
+
+        .portal-header {
+            background-color: #FFFFFF;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .portal-brand-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .portal-divider {
+            width: 1px;
+            height: 22px;
+            background-color: var(--border-dark);
+        }
+
+        .portal-client-meta {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portal-client-org {
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            line-height: 1.2;
+        }
+
+        .portal-dashboard-title {
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: var(--navy);
+            line-height: 1.3;
+        }
+
+        .portal-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .portal-frame-wrapper {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-subtle);
+        }
+
+        #clientDashboardFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .portal-empty-state {
+            display: none;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .portal-empty-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 40px;
+            max-width: 480px;
+        }
+
+        .portal-empty-card h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+
+        .portal-empty-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
         }
 
         .maint-header {
@@ -156,7 +264,7 @@
             flex-wrap: wrap;
         }
 
-        /* Login Modal inside Maintenance */
+        /* Modals */
         .login-modal-backdrop {
             position: fixed;
             inset: 0;
@@ -239,6 +347,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .admin-bar-actions {
+            display: flex;
+            gap: 8px;
         }
 
         .logout-btn {
@@ -296,12 +411,12 @@
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 20px;
         }
 
         .nav-links {
             display: flex;
-            gap: 28px;
+            gap: 26px;
             list-style: none;
         }
 
@@ -384,6 +499,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 6px;
             padding: 12px 24px;
             font-size: 0.9rem;
             font-weight: 500;
@@ -698,10 +814,56 @@
                 gap: 12px;
                 text-align: center;
             }
+            .portal-header {
+                padding: 0 16px;
+            }
+            .portal-brand-group .brand-name {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- ================= CLIENT PORTAL VIEW ================= -->
+    <div id="clientPortalOverlay">
+        <div class="portal-header">
+            <div class="portal-brand-group">
+                <div class="brand">
+                    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="JR Aviation Solutions Logo">
+                        <path d="M36 48H52V84C52 93 45 99 36 99C29 99 24 95 21 90" stroke="#0B1F3A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M40 98.5C49 97 56 89 56 78V62C56 50 63 43 74 37L98 24C101 22.5 104 24.5 102 27.5L78 41C68 46.5 62 52 61 61" stroke="#0B1F3A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M72 38L62 32L59 35L66 42" stroke="#0B1F3A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M63 63V99" stroke="#0B1F3A" stroke-width="3.2" stroke-linecap="round"/>
+                        <path d="M63 48H79C88 48 94 54 94 62.5C94 71 88 77 79 77H63" stroke="#0B1F3A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M78 77L94 99" stroke="#0B1F3A" stroke-width="3.2" stroke-linecap="round"/>
+                    </svg>
+                    <span class="brand-name">JR Aviation Solutions</span>
+                </div>
+                <div class="portal-divider"></div>
+                <div class="portal-client-meta">
+                    <span class="portal-client-org" id="portalClientOrg">Client Organization</span>
+                    <span class="portal-dashboard-title" id="portalDashboardTitle">Aviation Analytics Dashboard</span>
+                </div>
+            </div>
+
+            <div class="portal-actions">
+                <a id="portalExternalLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" data-i18n="portal_open_tab">Open in nieuw tabblad</a>
+                <button type="button" class="btn btn-primary btn-sm" onclick="logoutClient()" data-i18n="portal_logout">Portaal verlaten</button>
+            </div>
+        </div>
+
+        <div class="portal-frame-wrapper">
+            <iframe id="clientDashboardFrame" title="Client Aviation Dashboard" allow="fullscreen"></iframe>
+            <div id="portalEmptyState" class="portal-empty-state">
+                <div class="portal-empty-card">
+                    <h3 data-i18n="portal_no_url_title">Dashboard in voorbereiding</h3>
+                    <p data-i18n="portal_no_url_desc">Er is momenteel nog geen actieve dashboard-URL gekoppeld aan dit klantaccount. Neem contact op met JR Aviation Solutions voor activatie.</p>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="logoutClient()" data-i18n="portal_logout">Portaal verlaten</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- ================= MAINTENANCE OVERLAY ================= -->
     <div id="maintenanceOverlay">
@@ -768,7 +930,7 @@
         </footer>
     </div>
 
-    <!-- Login Modal -->
+    <!-- Admin Login Modal -->
     <div id="loginModal" class="login-modal-backdrop" onclick="if(event.target === this) closeLoginModal()">
         <div class="login-modal">
             <div class="login-modal-header">
@@ -793,11 +955,39 @@
         </div>
     </div>
 
+    <!-- Client Portal Login Modal -->
+    <div id="clientLoginModal" class="login-modal-backdrop" onclick="if(event.target === this) closeClientModal()">
+        <div class="login-modal">
+            <div class="login-modal-header">
+                <h2 data-i18n="client_modal_title">Klantportaal</h2>
+                <button type="button" class="close-modal" onclick="closeClientModal()" aria-label="Sluiten">&times;</button>
+            </div>
+            <p data-i18n="client_modal_subtitle">Log in met uw klantgegevens om uw gekoppelde dashboard te openen.</p>
+
+            <div id="clientLoginError" class="login-error" data-i18n="login_error">Onjuiste gebruikersnaam of wachtwoord.</div>
+
+            <form onsubmit="handleClientLogin(event)">
+                <div class="form-group">
+                    <label for="clientUser" data-i18n="login_user">Gebruikersnaam</label>
+                    <input type="text" id="clientUser" autocomplete="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientPass" data-i18n="login_pass">Wachtwoord</label>
+                    <input type="password" id="clientPass" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" data-i18n="client_login_submit">Dashboard openen</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Admin Preview Banner -->
     <div id="adminBar">
         <div class="container admin-bar-inner">
             <span data-i18n="admin_banner">Onderhoudsmodus actief — ingelogd als JPRuijten</span>
-            <button type="button" class="logout-btn" onclick="logoutAdmin()" data-i18n="logout_btn">Uitloggen</button>
+            <div class="admin-bar-actions">
+                <button type="button" class="logout-btn" onclick="openClientModal()" data-i18n="admin_test_portal">Test Klantportaal</button>
+                <button type="button" class="logout-btn" onclick="logoutAdmin()" data-i18n="logout_btn">Uitloggen</button>
+            </div>
         </div>
     </div>
 
@@ -822,6 +1012,8 @@
                     <li><a href="#werkwijze" data-i18n="nav_approach">Maatwerk</a></li>
                     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
                 </ul>
+
+                <button type="button" class="btn btn-secondary btn-sm" onclick="openClientModal()" data-i18n="nav_portal">Klantportaal</button>
 
                 <div class="lang-switch" role="group" aria-label="Language selector">
                     <button type="button" class="lang-btn active" id="btn-nl" onclick="setLanguage('nl')">NL</button>
@@ -967,6 +1159,29 @@
             el.textContent = new Date().getFullYear();
         });
 
+        /* =================================================================
+           KLANTPORTAAL CONFIGURATIE — KOPPEL HIER KLANTEN & DASHBOARDS
+           =================================================================
+           Voeg hieronder per klant een profiel toe.
+           Gebruik voor Streamlit Cloud ?embed=true achter de URL voor een
+           naadloze weergave in het portaal.
+        */
+        const clientDashboards = {
+            "GRQ_RouteDev": {
+                password: "GRQ2026!Portal",
+                organization: "Groningen Airport Eelde",
+                dashboardTitle: "Route Development & O&D Intelligence",
+                dashboardUrl: "" // Vul hier de URL in, bijv. "https://jouw-app.streamlit.app/?embed=true"
+            },
+            "demo": {
+                password: "Demo2026!",
+                organization: "Demo Aviation Partner",
+                dashboardTitle: "Operational Performance Overview",
+                dashboardUrl: "" // Vul hier een test-URL in
+            }
+        };
+
+        /* ================= ADMIN AUTHENTICATION ================= */
         function unlockSite() {
             document.getElementById('maintenanceOverlay').classList.add('hidden');
             document.getElementById('adminBar').classList.add('visible');
@@ -1007,6 +1222,74 @@
             unlockSite();
         }
 
+        /* ================= CLIENT PORTAL LOGIC ================= */
+        function openClientModal() {
+            document.getElementById('clientLoginError').style.display = 'none';
+            document.getElementById('clientLoginModal').classList.add('open');
+            document.getElementById('clientUser').focus();
+        }
+
+        function closeClientModal() {
+            document.getElementById('clientLoginModal').classList.remove('open');
+        }
+
+        function launchClientPortal(clientKey) {
+            const client = clientDashboards[clientKey];
+            if (!client) return;
+
+            document.getElementById('portalClientOrg').textContent = client.organization;
+            document.getElementById('portalDashboardTitle').textContent = client.dashboardTitle;
+
+            const frame = document.getElementById('clientDashboardFrame');
+            const emptyState = document.getElementById('portalEmptyState');
+            const extLink = document.getElementById('portalExternalLink');
+
+            if (client.dashboardUrl && client.dashboardUrl.trim() !== "") {
+                frame.src = client.dashboardUrl;
+                frame.style.display = 'block';
+                emptyState.style.display = 'none';
+                extLink.href = client.dashboardUrl;
+                extLink.style.display = 'inline-flex';
+            } else {
+                frame.src = 'about:blank';
+                frame.style.display = 'none';
+                emptyState.style.display = 'flex';
+                extLink.style.display = 'none';
+            }
+
+            document.getElementById('clientPortalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            closeClientModal();
+        }
+
+        function handleClientLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('clientUser').value.trim();
+            const pass = document.getElementById('clientPass').value;
+
+            const account = clientDashboards[user];
+            if (account && account.password === pass) {
+                sessionStorage.setItem('jras_client_user', user);
+                e.target.reset();
+                launchClientPortal(user);
+            } else {
+                document.getElementById('clientLoginError').style.display = 'block';
+            }
+        }
+
+        function logoutClient() {
+            sessionStorage.removeItem('jras_client_user');
+            document.getElementById('clientDashboardFrame').src = 'about:blank';
+            document.getElementById('clientPortalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        const savedClient = sessionStorage.getItem('jras_client_user');
+        if (savedClient && clientDashboards[savedClient]) {
+            launchClientPortal(savedClient);
+        }
+
+        /* ================= TRANSLATIONS ================= */
         const translations = {
             nl: {
                 maint_login_btn: "Beheerder login",
@@ -1020,15 +1303,24 @@
                 maint_cta: "Direct contact via e-mail",
                 modal_title: "Beheerder toegang",
                 modal_subtitle: "Log in om de website tijdens onderhoud te bekijken.",
+                client_modal_title: "Klantportaal",
+                client_modal_subtitle: "Log in met uw klantgegevens om uw gekoppelde dashboard te openen.",
+                client_login_submit: "Dashboard openen",
+                portal_open_tab: "Open in nieuw tabblad",
+                portal_logout: "Portaal verlaten",
+                portal_no_url_title: "Dashboard in voorbereiding",
+                portal_no_url_desc: "Er is momenteel nog geen actieve dashboard-URL gekoppeld aan dit klantaccount. Neem contact op met JR Aviation Solutions voor activatie.",
                 login_error: "Onjuiste gebruikersnaam of wachtwoord.",
                 login_user: "Gebruikersnaam",
                 login_pass: "Wachtwoord",
                 login_submit: "Inloggen",
                 admin_banner: "Onderhoudsmodus actief — ingelogd als JPRuijten",
+                admin_test_portal: "Test Klantportaal",
                 logout_btn: "Uitloggen",
                 nav_solution: "Oplossing",
                 nav_approach: "Maatwerk",
                 nav_contact: "Contact",
+                nav_portal: "Klantportaal",
                 hero_eyebrow: "Aviation Decision Intelligence",
                 hero_title: "Maatwerk luchtvaartdashboards voor snelle, datagedreven beslissingen.",
                 hero_subtitle: "JR Aviation Solutions vertaalt complexe operationele en commerciële luchtvaartdata naar heldere, overzichtelijke dashboards. Volledig op aanvraag ontwikkeld en afgestemd op uw organisatie.",
@@ -1078,15 +1370,24 @@
                 maint_cta: "Contact directly via email",
                 modal_title: "Administrator access",
                 modal_subtitle: "Sign in to preview the website during maintenance.",
+                client_modal_title: "Client Portal",
+                client_modal_subtitle: "Sign in with your client credentials to access your linked dashboard.",
+                client_login_submit: "Open dashboard",
+                portal_open_tab: "Open in new tab",
+                portal_logout: "Exit portal",
+                portal_no_url_title: "Dashboard in preparation",
+                portal_no_url_desc: "No active dashboard URL is currently linked to this client account. Please contact JR Aviation Solutions for activation.",
                 login_error: "Invalid username or password.",
                 login_user: "Username",
                 login_pass: "Password",
                 login_submit: "Sign in",
                 admin_banner: "Maintenance mode active — signed in as JPRuijten",
+                admin_test_portal: "Test Client Portal",
                 logout_btn: "Sign out",
                 nav_solution: "Solution",
                 nav_approach: "Bespoke",
                 nav_contact: "Contact",
+                nav_portal: "Client Portal",
                 hero_eyebrow: "Aviation Decision Intelligence",
                 hero_title: "Custom aviation dashboards built for rapid, data-driven decisions.",
                 hero_subtitle: "JR Aviation Solutions transforms complex operational and commercial aviation data into clear, structured dashboards—built on request and tailored to your organization.",
